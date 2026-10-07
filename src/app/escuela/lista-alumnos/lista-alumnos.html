@@ -1,17 +1,53 @@
+<div class="max-w-4xl mx-auto p-8 bg-white rounded-lg shadow mt-10">
 
-<h2 class="mb-2 text-lg font-medium text-heading">Password requirements:</h2>
-<ul class="max-w-md space-y-1 text-body list-inside">
-    <li class="flex items-center">
-         <svg class="w-4 h-4 text-fg-success me-1.5 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
-        At least 10 characters
-    </li>
-    <li class="flex items-center">
-         <svg class="w-4 h-4 text-fg-success me-1.5 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
-        At least one lowercase character
-    </li>
-    <li class="flex items-center">
-         <svg class="w-4 h-4 text-body me-1.5 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
-        At least one special character, e.g., ! @ # ?
-    </li>
-</ul>
+  <h1 class="text-3xl font-bold text-gray-900 mb-6 text-center md:text-left">
+    Lista Alumnos
+  </h1>
+ 
+  
+  <form [formGroup]="formulario" (ngSubmit)="muestraAlumnos()">
+ 
+    <div class="mb-5">
+      <label for="matricula" class="block mb-2 text-sm font-medium text-gray-900">
+        Matricula
+      </label>
+      
+      <input type="text" id="matricula" name="matricula" formControlName="matricula" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Matricula">
+    </div>
+ 
+    <div class="mb-5">
+      <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900">
+        Nombre
+      </label>
+      <input type="text" id="nombre" name="nombre" formControlName="nombre" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Nombre">
+    </div>
+
+    <div class="mb-5">
+      <label for="correo" class="block mb-2 text-sm font-medium text-gray-900">
+        Correo
+      </label>
+      <input type="email" id="correo" name="correo" formControlName="correo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Correo">
+    </div>
+
+    <div class="mb-5">
+      <label for="materia" class="block mb-2 text-sm font-medium text-gray-900">
+        Materia
+      </label>
+      <input type="text" id="materia" name="materia" formControlName="materia" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Materia">
+    </div>
+ 
+    <div class="flex justify-center mt-6">
+      <button type="submit" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-10 py-2.5 text-center">
+        Registrar
+      </button>
+    </div>
+ 
+  </form>
+
+    <p class="text-gray-800">Matrícula: {{ alumno.matricula }}</p>
+    <p class="text-gray-800">Nombre: {{ alumno.nombre }}</p>
+    <p class="text-gray-800">Correo: {{ alumno.correo }}</p>
+    <p class="text-gray-800">Materia: {{ alumno.materia }}</p>
+ 
+</div>
 
