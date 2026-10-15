@@ -1,0 +1,60 @@
+<div class="max-w-4xl mx-auto p-8 font-sans text-black">
+  <h1 class="text-3xl font-bold mb-6 text-center">Registros de Zodiaco</h1>
+
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg border border-black">
+    <table class="w-full text-sm text-left text-gray-700">
+      <thead class="bg-gray-200 border-b border-black uppercase text-xs">
+        <tr>
+          <th class="px-6 py-3">Nombre</th>
+          <th class="px-6 py-3">Edad</th>
+          <th class="px-6 py-3">Signo</th>
+          <th class="px-6 py-3">Sexo</th>
+          <th class="px-6 py-3">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reg of registros; let i = index" class="border-b border-gray-300 bg-white">
+          <td class="px-6 py-4 font-medium">{{ reg.nombreCompleto }}</td>
+          <td class="px-6 py-4">{{ reg.edad }}</td>
+          <td class="px-6 py-4 flex items-center gap-2">
+            <img [src]="reg.imagenSigno" class="w-6 h-6 object-contain">
+            {{ reg.signo }}
+          </td>
+          <td class="px-6 py-4">{{ reg.sexo }}</td>
+          <td class="px-6 py-4">
+            <div class="flex gap-2">
+              <!-- Botón Editar -->
+              <button
+                type="button"
+                class="px-3 py-1 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700"
+                (click)="editarRegistro(i)"
+              >
+                Editar
+              </button>
+              <!-- Botón Eliminar -->
+              <button
+                type="button"
+                class="px-3 py-1 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700"
+                (click)="eliminarRegistro(i)"
+              >
+                Eliminar
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Mensaje si no hay registros -->
+  <div *ngIf="registros.length === 0" class="p-4 mt-4 text-center bg-gray-100 border border-black">
+    No hay registros guardados.
+  </div>
+
+  <!-- Botón para regresar -->
+  <div class="mt-6 text-center">
+    <a routerLink="/zodiaco" class="border-2 border-black bg-gray-200 px-4 py-2 font-bold shadow-[2px_2px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-y-1 inline-block">
+      Regresar
+    </a>
+  </div>
+</div>

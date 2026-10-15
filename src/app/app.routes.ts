@@ -23,6 +23,12 @@ export const routes: Routes = [
             }
         ]
     },
+    { 
+  path: 'lista-registros-zodiaco', 
+  loadComponent: () => import('./lista-zodiaco/lista-zodiaco').then(m => m.ListaZodiaco) 
+},
+
+    
     {
         path: '', redirectTo: 'formularios/usuarios', pathMatch: 'full' 
     },

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-zodiaco',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './zodiaco.html',
   styleUrl: './zodiaco.css'
 })
@@ -17,8 +18,9 @@ export class Zodiaco implements OnInit {
   signo: string = '';
   imagenSigno: string = '';
   mostrado: boolean = false;
+  registros: any[] = [];
+  indiceEdicion: number = -1;
 
-  
   private signosChinos = [
     { nombre: 'Rata', imagen: 'https://img.icons8.com/color/96/rat.png' },
     { nombre: 'Buey', imagen: 'https://img.icons8.com/color/96/ox.png' },
@@ -35,6 +37,8 @@ export class Zodiaco implements OnInit {
   ];
 
   ngOnInit(): void {
+    this.cargarRegistros();
+
     this.formulario = new FormGroup({
       nombre: new FormControl(''),
       apaterno: new FormControl(''),
@@ -44,10 +48,42 @@ export class Zodiaco implements OnInit {
       anio: new FormControl(''),
       sexo: new FormControl('Masculino')
     });
+
+    // Verificar si hay un registro pendiente de edición
+    const indexEdicionGuardado = localStorage.getItem('indiceEdicionZodiaco');
+    if (indexEdicionGuardado !== null) {
+      this.indiceEdicion = Number(indexEdicionGuardado);
+      const reg = this.registros[this.indiceEdicion];
+      if (reg) {
+        // Separar el nombre completo guardado para rellenar los inputs si es necesario
+        // O si prefieres guardar los campos individuales, también puedes hacerlo. 
+        // Por simplicidad, aquí rellenamos lo básico con los datos guardados:
+        const partesNombre = reg.nombreCompleto.split(' ');
+        this.formulario.patchValue({
+          nombre: partesNombre[0] || '',
+          apaterno: partesNombre[1] || '',
+          amaterno: partesNombre[2] || '',
+          sexo: reg.sexo
+        });
+      }
+    }
+  }
+
+  cargarRegistros(): void {
+    const datos = localStorage.getItem('zodiacoRegistros');
+    if (datos) {
+      this.registros = JSON.parse(datos);
+    }
   }
 
   imprimir(): void {
     const values = this.formulario.value;
+
+    if (!values.nombre || !values.apaterno || !values.amaterno || !values.dia || !values.mes || !values.anio) {
+      alert('Todos los campos son obligatorios');
+      this.mostrado = false;
+      return;
+    }
 
     this.nombreCompleto = `${values.nombre} ${values.apaterno} ${values.amaterno}`;
 
@@ -70,6 +106,24 @@ export class Zodiaco implements OnInit {
     this.signo = this.signosChinos[indiceSigno].nombre;
     this.imagenSigno = this.signosChinos[indiceSigno].imagen;
 
+    const datosRegistro = {
+      nombreCompleto: this.nombreCompleto,
+      edad: this.edad,
+      signo: this.signo,
+      imagenSigno: this.imagenSigno,
+      sexo: values.sexo
+    };
+
+    // Si estamos editando, actualiza la posición existente; si no, haz push
+    if (this.indiceEdicion >= 0) {
+      this.registros[this.indiceEdicion] = datosRegistro;
+      localStorage.removeItem('indiceEdicionZodiaco');
+      this.indiceEdicion = -1;
+    } else {
+      this.registros.push(datosRegistro);
+    }
+
+    localStorage.setItem('zodiacoRegistros', JSON.stringify(this.registros));
     this.mostrado = true;
   }
 }
